@@ -1,0 +1,4 @@
+So before we write anything first take into account a few things, what information does
+one workout need? Exercise name, weight, reps, date,
+
+Then, if I have one workout, how do i store TEN workouts?
