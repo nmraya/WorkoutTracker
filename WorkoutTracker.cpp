@@ -17,6 +17,8 @@ void continueWorkout(vector<string> &Workouts){
 
 void removeWorkout(vector<string> &Workouts){
     string removedWorkout;
+    bool matchingWorkout = false;
+    //NOT bool matchingWorkout false; must set = false
     cout << "Workouts: ";
     for (int i = 0; i < Workouts.size(); i++){
         if (i == 0){
@@ -27,18 +29,40 @@ void removeWorkout(vector<string> &Workouts){
         }
     }
     cout << endl;
-    cout << "Type workout to remove: ";
-    cin >> removedWorkout;
+    //cout << "Type workout to remove: ";
+    //cin >> removedWorkout;
     //maybe we can go by position in vector, for ex i = 0, i = 1, user enters #
     // of position they want to remvoe
-    for (int i = 0; i < Workouts.size(); i++){
+    
+    while (matchingWorkout == false){
+        cout << "Type workout to remove: ";
+        cin >> removedWorkout;
+        for (int i = 0; i < Workouts.size(); i++){
         //go through each element in vector
-        if (removedWorkout == Workouts[i]){
-            //if removedWorkout matches with Workouts[i]
-            Workouts.erase(Workouts.begin() + i);
-            // erase item at vector position i 
+        cout << Workouts[i] << endl;
+        
+            if (removedWorkout == Workouts[i]){
+                //if removedWorkout matches with Workouts[i]
+                Workouts.erase(Workouts.begin() + i);
+                // erase item at vector position i
+                matchingWorkout = true; 
+            }
+            else{
+                cout << Workouts[i] << endl;
+                cout << "Please enter valid workout" << endl;
+                break;
+                //what its doing is its going through first if statement, then since
+                //the if statement is false bc lets say first element in vector is chest and
+                //we are trying to remove legs which is the second element in vector
+                //since after the if statement it goes to the else it always goes to the else
+                //what happens is it says please enter a valid workout and breaks before it 
+                //even finishes iterating through the entire vector to check if the removedWorkout
+                //is even valid or not
+            }
+       
         }
     }
+
 
     cout << "----------" << endl;
 
