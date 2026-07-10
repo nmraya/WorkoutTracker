@@ -128,13 +128,22 @@ void removeWorkout(vector<Workout> &Workouts){
         cin >> removedWorkoutdate;
         for (int i = 0; i < Workouts.size(); i++){
         //go through each element in vector
-            if (removedWorkoutname && removedWorkoutdate == Workouts[i]){
-                //if removedWorkout matches with Workouts[i]
-                Workouts.erase(Workouts.begin() + i);
-                // erase item at vector position i
-                matchingWorkout = true; 
-                //matchingWorkout = true, so when we check next if statement
-                //it skips it
+            if (removedWorkoutname == Workouts[i].name){ //need to account also for date this only checks if workout name matched need to check if date matches too
+                if(removedWorkoutdate == Workouts[i].date){
+                    Workouts.erase(Workouts.begin() + i);//why do we not need to erase the .name & .date why can we just remove the workout as posiition i?
+                    //is it because the name and date are both stored at the index i so we just need to remove that specific index
+                    //if thats the case why cant we just check if removedWorkoutname == Workouts[i] why do we need Workouts[i].name
+                    //the reason we can do the erase is because its erasing both the objects stored at that position i so its fine
+                    //but however we cant compare removedWorkoutdate and Workouts[i] because of types, removedWorkoutname is a string and 
+                    //Workouts[i] is the objectso we cant compare those two its like trying to compare a string == Workout object, so we need to get more specific
+                    //which is like string == string 
+                    //Workouts[i] is one specific Workout object stored at index i
+                    //Workouts is the vector that stores many Workout objects
+                    //Workout is the class/type
+                    
+                    matchingWorkout = true; 
+                }
+                
             }
         }
         if (matchingWorkout == false){
