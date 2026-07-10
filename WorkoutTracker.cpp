@@ -3,36 +3,86 @@
 #include <vector>
 using namespace std;
 
-void addWorkout(vector<string> &Workouts){
-    string Workout;
-    cout << "Please enter workout to add: ";
-    cin >> Workout;
-    Workouts.push_back(Workout);
+class Workout{
+    //need to make public or else by default it is set to private
+    public:
+        string name;
+        string date;
+};
+
+class Exercises{
+    public:
+        string name;
+        double weight;
+        int reps;
+        int sets;
+};
+
+void addWorkout(vector<Workout> &Workouts){
+    //Workouts is the name of the vector
+    //Workouts vector stores objects of type Workout which consists of a name and a date
+    //need to essentially do
+    // Workout Workout1;   --> this is the main thing we need to figure out
+    //Workout1.name = push
+    //Workout1.date = monday
+    //well no this shit is just temporary so literally just create it here and it can fuck off after function ends
+    Workout Workout1;
+    cout << "Please enter workout name to add: ";
+    cin >> Workout1.name;
+     cout << "Please enter workout date to add: ";
+    cin >> Workout1.date;
+    //now after doing Workout1.name & Workout1.date we temporarily are storing those
+    //Workout1
+    //------------
+    //name = Push
+    //date = Monday
+    //into the Workout1 object, but then we push it back onto Workouts below
+    cout << endl;
+    Workouts.push_back(Workout1);
+    //this above will push whole workout into the vector which looks now like this
+    //index 0
+    //------------
+    //name = Push
+    //date = Monday
+    //now we are able to push the Workout class objects in this case which are
+    //then name and date 
+
     cout << "----------" << endl;
 }
 
-void continueWorkout(vector<string> &Workouts){
-    string continuedWorkout;
+void continueWorkout(vector<Workout> &Workouts){
+    //Workouts is the name of our vector
+    //we need to now replace everything in here to check and see if it matches with
+    //the different objects aka correct workout name and date 
+    string continuedWorkoutname;
     bool matchingWorkout = false;
     cout << "Workouts: ";
-    for (int i = 0; i < Workouts.size(); i++){
+    for (int i = 0; i < Workouts.size(); i++){//loop through size of vector
         if (i == 0){
-            cout << Workouts[i];
+            //cout << Workouts[i];
+            //remember though the temp Workout Workout1 object is gone but we pushed
+            //the copy into the vector so we still have that 
+            cout << Workouts[i].name;
+            cout << Workouts[i].date;
         }
         else{
-            cout << ", " << Workouts[i];
+            cout << ", " << Workouts[i].name;
+            cout << ", " << Workouts[i].date;
         }
     }
+    //this will print out the elements in our vector
+
+    
     cout << endl;
 
     while (matchingWorkout == false){
         cout << "Type workout to continue: ";
-        cin >> continuedWorkout;
+        cin >> continuedWorkoutname;
         for (int i = 0; i < Workouts.size(); i++){
         //go through each element in vector
-            if (continuedWorkout == Workouts[i]){
+            if (continuedWorkoutname == Workouts[i].name){
                 //if removedWorkout matches with Workouts[i]
-                cout << "Accessing workout " << Workouts[i] << endl;
+                cout << "Accessing workout " << Workouts[i].name << endl;
                 // erase item at vector position i
                 matchingWorkout = true; 
                 //matchingWorkout = true, so when we check next if statement
@@ -44,7 +94,6 @@ void continueWorkout(vector<string> &Workouts){
             //if no match was found, matchingWorkout stays = false and then we go
             //to top of while loop again and repeat until we find a match
         }
-
         
     }
 
@@ -53,31 +102,33 @@ void continueWorkout(vector<string> &Workouts){
 
 }
 
-void removeWorkout(vector<string> &Workouts){
-    string removedWorkout;
+void removeWorkout(vector<Workout> &Workouts){
+    string removedWorkoutname;
+    string removedWorkoutdate;
     bool matchingWorkout = false;
     //NOT bool matchingWorkout false; must set = false
     cout << "Workouts: ";
     for (int i = 0; i < Workouts.size(); i++){
         if (i == 0){
-            cout << Workouts[i];
+            cout << Workouts[i].name;//must use Workouts[i].name or .date etc, can no longer just do Workouts[i]
+            cout << Workouts[i].date;
         }
         else{
-            cout << ", " << Workouts[i];
+            cout << ", " << Workouts[i].name;
+            cout << " " << Workouts[i].date;
         }
     }
     cout << endl;
-    //cout << "Type workout to remove: ";
-    //cin >> removedWorkout;
-    //maybe we can go by position in vector, for ex i = 0, i = 1, user enters #
-    // of position they want to remvoe
+    //this prints out each workout name and date at each position in our vector 
     
     while (matchingWorkout == false){
         cout << "Type workout to remove: ";
-        cin >> removedWorkout;
+        cin >> removedWorkoutname;
+        cout << "Type workout date to remove: ";
+        cin >> removedWorkoutdate;
         for (int i = 0; i < Workouts.size(); i++){
         //go through each element in vector
-            if (removedWorkout == Workouts[i]){
+            if (removedWorkoutname && removedWorkoutdate == Workouts[i]){
                 //if removedWorkout matches with Workouts[i]
                 Workouts.erase(Workouts.begin() + i);
                 // erase item at vector position i
@@ -100,14 +151,16 @@ void removeWorkout(vector<string> &Workouts){
 
 }
 
-void viewWorkout(vector<string> &Workouts){
+void viewWorkout(vector<Workout> &Workouts){
     cout << "Workouts: ";
     for (int i = 0; i < Workouts.size(); i++){
         if (i == 0){
-            cout << Workouts[i];
+            cout << Workouts[i].name;
+            cout << Workouts[i].date;
         }
         else{
-            cout << ", " << Workouts[i];
+            cout << ", " << Workouts[i].name;
+            cout << " " << Workouts[i].date;
         }
     }
     cout << endl;
@@ -120,7 +173,8 @@ int main(){
 
     string menuInput;
     bool validNumber = false;
-    vector<string> Workouts;
+    vector<Workout> Workouts;
+    //this is a vector of classes named Workouts
 
 
 

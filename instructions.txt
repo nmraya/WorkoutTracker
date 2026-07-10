@@ -2,3 +2,29 @@ So before we write anything first take into account a few things, what informati
 one workout need? Exercise name, weight, reps, date,
 
 Then, if I have one workout, how do i store TEN workouts?
+
+workout
+-------
+name
+date
+think about it being stored like this in a vector
+Workouts vector
+
++----------------+
+| Workout        |
+| name: Push     |
+| date: Monday   |
++----------------+
+
++----------------+
+| Workout        |
+| name: Legs     |
+| date: Wed      |
++----------------+
+
+exercise
+--------
+name
+weight
+reps
+sets
