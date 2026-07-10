@@ -12,6 +12,44 @@ void addWorkout(vector<string> &Workouts){
 }
 
 void continueWorkout(vector<string> &Workouts){
+    string continuedWorkout;
+    bool matchingWorkout = false;
+    cout << "Workouts: ";
+    for (int i = 0; i < Workouts.size(); i++){
+        if (i == 0){
+            cout << Workouts[i];
+        }
+        else{
+            cout << ", " << Workouts[i];
+        }
+    }
+    cout << endl;
+
+    while (matchingWorkout == false){
+        cout << "Type workout to continue: ";
+        cin >> continuedWorkout;
+        for (int i = 0; i < Workouts.size(); i++){
+        //go through each element in vector
+            if (continuedWorkout == Workouts[i]){
+                //if removedWorkout matches with Workouts[i]
+                cout << "Accessing workout " << Workouts[i] << endl;
+                // erase item at vector position i
+                matchingWorkout = true; 
+                //matchingWorkout = true, so when we check next if statement
+                //it skips it
+            }
+        }
+        if (matchingWorkout == false){
+            cout << "Please enter valid workout" << endl;
+            //if no match was found, matchingWorkout stays = false and then we go
+            //to top of while loop again and repeat until we find a match
+        }
+
+        
+    }
+
+
+    cout << "----------" << endl;
 
 }
 
@@ -39,28 +77,22 @@ void removeWorkout(vector<string> &Workouts){
         cin >> removedWorkout;
         for (int i = 0; i < Workouts.size(); i++){
         //go through each element in vector
-        cout << Workouts[i] << endl;
-        
             if (removedWorkout == Workouts[i]){
                 //if removedWorkout matches with Workouts[i]
                 Workouts.erase(Workouts.begin() + i);
                 // erase item at vector position i
                 matchingWorkout = true; 
+                //matchingWorkout = true, so when we check next if statement
+                //it skips it
             }
-            else{
-                cout << Workouts[i] << endl;
-                cout << "Please enter valid workout" << endl;
-                break;
-                //what its doing is its going through first if statement, then since
-                //the if statement is false bc lets say first element in vector is chest and
-                //we are trying to remove legs which is the second element in vector
-                //since after the if statement it goes to the else it always goes to the else
-                //what happens is it says please enter a valid workout and breaks before it 
-                //even finishes iterating through the entire vector to check if the removedWorkout
-                //is even valid or not
-            }
-       
         }
+        if (matchingWorkout == false){
+            cout << "Please enter valid workout" << endl;
+            //if no match was found, matchingWorkout stays = false and then we go
+            //to top of while loop again and repeat until we find a match
+        }
+
+        
     }
 
 
@@ -111,16 +143,35 @@ int main(){
         else if (menuInput == "2"){
             cout << "Continuing Existing Workout" << endl;
             //allow vector to be printed out and let user see which they want to pick
+            if (Workouts.empty()){
+                cout << "Workout list is empty" << endl;
+            }
+            else{
+                continueWorkout(Workouts);
+            }
         }
         else if (menuInput == "3"){
             cout << "Removing Workout" << endl;
+            if (Workouts.empty()){
+                cout << "Workout list is empty" << endl;
+                //could either do return 0, break, or change bool
+                //i think break would work best as it breaks out of current statement
+            }
+            else{
+                removeWorkout(Workouts);
+            }
             //print vector and let user type which they want removed
-            removeWorkout(Workouts);
         }
         else if (menuInput == "4"){
             cout << "Viewing Previous Workout" << endl;
-            //same as input 2
-            viewWorkout(Workouts);
+            //same as input 2{
+            
+            if (Workouts.empty()){
+                cout << "Workout list is empty" << endl;
+            }
+            else{
+                viewWorkout(Workouts);
+            }
         }
         else if (menuInput == "5"){
             validNumber = true;
