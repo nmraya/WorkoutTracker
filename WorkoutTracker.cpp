@@ -20,7 +20,9 @@ class Workout{
 
 };
 
-
+//either allow user to enter date like 21st, or have it be weekly, should i have it so they can go back and see any workout theyve done if so i need to make it bigger than weekly
+//most likely need like months, days, years etc, also need to make it so for continue existing workout, should the user also instead of just being able to add exericses they can
+//also remove or adjust exercises like reps, sets, etc, 
 
 
 void addWorkout(vector<Workout> &Workouts){//this takes in vector of Workout objects and the vector is named Workouts
@@ -73,23 +75,19 @@ void addExercises(Workout &currentWorkout){ //this is expecting to receive the c
     string userOption;
 
     while(addExercisesloop == false){
-        Exercise Exercise1;
-        cout << "Please enter exercise name: ";
 
-        cin >> Exercise1.name;
-        //cout << "Exercise name: " << Exercise1.name
+        Exercise Exercise1;
+
+        cout << "Please enter exercise name: ";
+        getline(cin >> ws, Exercise1.name);
 
         cout << "Please enter weight: ";
-
         cin >> Exercise1.weight;
-
         cout << "Please enter reps: ";
-
         cin >> Exercise1.reps;
-
         cout << "Please enter sets: ";
-
         cin >> Exercise1.sets;
+
 
 
 
@@ -167,6 +165,7 @@ void continueWorkout(vector<Workout> &Workouts){//the parameters is what the fun
                         //up to here everything runs fine its just here here that fucks up -----------------------------
 
                         addExercises(Workouts[i]);
+                        //we are passing the current workout that we found in this function into our addExercises function
                         //this is not a vector, this is Workouts[i] which is the current workout we are on which reads add an exercise to the current workout we are on
 
 
@@ -280,10 +279,12 @@ void removeWorkout(vector<Workout> &Workouts){
 }
 
 void viewWorkout(vector<Workout> &Workouts){
+    bool validWorkout;
+    string workoutName;
     cout << "Workouts: ";
- /*   for (int i = 0; i < Workouts.size(); i++){
+    for (int i = 0; i < Workouts.size(); i++){
         if (i == 0){
-           cout << Workouts[i].name;
+           cout << Workouts[i].name << " - ";
             cout << Workouts[i].date;
             //need to separate i and j because we cannot use them for the same or else it will miss certain indexes 
             
@@ -291,44 +292,41 @@ void viewWorkout(vector<Workout> &Workouts){
         }
         else{
            cout << ", " << Workouts[i].name;
-            cout << " " << Workouts[i].date;
+            cout << " - " << Workouts[i].date;
 
             
         }
     }
-    */
-        for (int i = 0; i < Workouts.size(); i++){//this is looping for however many elements there are in workouts vector, this is incorrect
-            //it should be looping for however many elements (aka exercises) are inside of our Workout object 
-            if (i == 0){
-                cout << "Workout name: " << Workouts[i].name;
-                cout << endl;
-                cout << "Workout date: " << Workouts[i].date;
-                
-                for (int j = 0; j < Workouts[i].Exercises.size(); j++){
-                    cout << Workouts[i].Exercises[j].name;
-                    cout << Workouts[i].Exercises[j].weight;
-                    cout << Workouts[i].Exercises[j].reps;
-                    cout << Workouts[i].Exercises[j].sets;
+    cout << endl;
+
+    //while()
+
+    cout << "Enter workout name to view: ";
+    cin >> workoutName;
+
+    cout << "----------" << endl;
+    //we need to check to see if user entered workoutname is valid
+
+    for (int i = 0; i < Workouts.size(); i++){//goes through entire workouts vector 
+        if(workoutName == Workouts[i].name){//if our workout name matches a workout from our workouts vector, continue
+            //now we know the name of the workout 
+                for (int j = 0; j < Workouts[i].Exercises.size(); j++){//now from that specific workout we matched with go through its exercises and print each data piece out
+                    //at first you had it like 
+                    //cout << Workouts[i].name; etc
+                    cout << "Exercise: " << Workouts[i].Exercises[j].name << endl;
+                    cout << "Weight: " << Workouts[i].Exercises[j].weight << endl;
+                    cout << "Reps: " << Workouts[i].Exercises[j].reps << endl;
+                    cout << "Sets: " << Workouts[i].Exercises[j].sets << endl;
                 }
 
-            }
-            else{
-                cout << ", " << Workouts[i].name;
-                cout << Workouts[i].date;
-                //need to separate i and j because we cannot use them for the same or else it will miss certain indexes 
-                for (int j = 0; j < Workouts[i].Exercises.size(); j++){
-                    cout << Workouts[i].Exercises[j].name;
-                    cout << Workouts[i].Exercises[j].weight;
-                    cout << Workouts[i].Exercises[j].reps;
-                    cout << Workouts[i].Exercises[j].sets;
-                }
-            }
-
+        }
+        else{
 
         }
 
+    }
 
-    cout << endl;
+    
     cout << "----------" << endl;
 }
 
