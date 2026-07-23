@@ -1,38 +1,10 @@
 #include <iostream>
-#include <string>
 #include <vector>
+#include "Workout.h"//need file that has workout class
+#include "WorkoutFunctions.h"//and need file that has our workout functions listed
 using namespace std;
 
-class Exercise{
-    public:
-        string name;
-        string weight;
-        string reps;
-        string sets;
-};
-
-class Date{
-    public:
-        string day;
-        string month;
-        string year;
-};
-
-class Workout{
-    //need to make public or else by default it is set to private
-    public:
-        string name;
-        //string date;//think about this now, we probably want a class Date to hold day, month, year so how do we implement that
-        //also should we in here in this class have vector<Date> Dates or Date date; whats the difference between each one?
-        //vector<Date> Dates holds a bunch of Dates , think about the exercises vector we have right below, its like that, it holds a bunch of exercises for a workout object
-        //all we need however is one date for a workout object, so we just need Date date;
-        Date date;//Date is the type like string or int, and date is the object 
-        vector<Exercise> Exercises;
-
-};
-
-
-
+//need time could split up ExerciseFunctions.cpp & WorkoutFunctions.cpp
 
 void addWorkout(vector<Workout> &Workouts){//this takes in vector of Workout objects and the vector is named Workouts
     //Workouts is the name of the vector
@@ -190,18 +162,18 @@ void addExercises(Workout &currentWorkout){ //this is expecting to receive the c
 
 }
 
-void removeExercises(Workout &currentWorkout, vector<Workout> &Workouts){
+void removeExercises(Workout &currentWorkout){
     string removedExercise;
     cout << "Please select exercise to remove" << endl;
 
-    for (int i = 0; i < Workouts.size(); i++){
-                for (int j = 0; j < Workouts[i].Exercises.size(); j++){
+    
+                for (int j = 0; j < currentWorkout.Exercises.size(); j++){
 
-                    cout << "Exercise: " << Workouts[i].Exercises[j].name << endl;
+                    cout << "Exercise: " << currentWorkout.Exercises[j].name << endl;
 
                     getline(cin >> ws, removedExercise);
 
-                    if(removedExercise == Workouts[i].Exercises[j].name){//
+                    if(removedExercise == currentWorkout.Exercises[j].name){//
                         cout << "matched" << endl;
 
                         //Workouts[i].Exercises[j].name.erase();
@@ -216,16 +188,14 @@ void removeExercises(Workout &currentWorkout, vector<Workout> &Workouts){
 
 
                 }
-    }
+    
 
 
 
 
 }
 
-
-
-void adjustExercises(Workout &currentWorkout, vector<Workout> &Workouts){
+void adjustExercises(Workout &currentWorkout){
     string userOptionname;
     string userOptionitem;
     string adjustedName;
@@ -235,16 +205,16 @@ void adjustExercises(Workout &currentWorkout, vector<Workout> &Workouts){
     bool validOption = false;
     bool validWorkout = false;
 
-    for (int i = 0; i < Workouts.size(); i++){
-        for (int j = 0; j < Workouts[i].Exercises.size(); j++){
+  
+        for (int j = 0; j < currentWorkout.Exercises.size(); j++){
             if (j == 0){
-                cout << "Exercise: " << Workouts[i].Exercises[j].name;
+                cout << "Exercise: " << currentWorkout.Exercises[j].name;
             }
             else{
-                cout << ", " << Workouts[i].Exercises[j].name;
+                cout << ", " << currentWorkout.Exercises[j].name;
             }
         }
-    }
+    
     cout << endl;
 
     while(validWorkout == false){
@@ -255,8 +225,8 @@ void adjustExercises(Workout &currentWorkout, vector<Workout> &Workouts){
 
         //cout << "user option name: " << userOptionname << endl;
         
-        for (int i = 0; i < Workouts.size(); i++){
-            for (int j = 0; j < Workouts[i].Exercises.size(); j++){
+       
+            for (int j = 0; j <currentWorkout.Exercises.size(); j++){
                 //cout << "current workout name: " << currentWorkout.Exercises[j].name << endl;
                 if(userOptionname == currentWorkout.Exercises[j].name){
                         cout << "----------" << endl;
@@ -325,7 +295,7 @@ void adjustExercises(Workout &currentWorkout, vector<Workout> &Workouts){
                 }
 
             }
-    }
+    
 
     }
 
@@ -399,13 +369,12 @@ int workoutVerification(vector<Workout> &Workouts){ // return a reference so we 
                 //need to put this shit out of loop or else if u put in for loop, after every iteration where user inputted name is not equal to name in vector, it will show as 
                 //please enter valid name when it should only show if it was never valid in the first place
             }
-
+        
     }
 
-
+    return -1;
 
 }
-
 
 void continueWorkout(vector<Workout> &Workouts){//the parameters is what the function EXPECTS to receive when it is called !!!! 
     //we need vector<Workout> &Workouts because we need the access our entire Workouts vector of Workout objects to see which Workout object the user wants to add exercises to
@@ -460,7 +429,7 @@ void continueWorkout(vector<Workout> &Workouts){//the parameters is what the fun
             }
             else{
                 cout << "----------" << endl;
-                removeExercises(Workouts[i], Workouts);
+                removeExercises(Workouts[i]);
                 validExerciseoption = true;
             }
         }
@@ -470,7 +439,7 @@ void continueWorkout(vector<Workout> &Workouts){//the parameters is what the fun
             }
             else{
                 cout << "----------" << endl;                                                
-                adjustExercises(Workouts[i], Workouts);
+                adjustExercises(Workouts[i]);
                 validExerciseoption = true;
             }
         }
@@ -482,8 +451,6 @@ void continueWorkout(vector<Workout> &Workouts){//the parameters is what the fun
     cout << "----------" << endl;
 
 }
-
-
 
 void removeWorkout(vector<Workout> &Workouts){
     string removedWorkoutname;
@@ -536,10 +503,11 @@ void viewWorkout(vector<Workout> &Workouts){
     }
     cout << endl;
 
-    cout << "----------" << endl;
 
     int i = workoutVerification(Workouts);
     //for(int i = index; i < Workouts.size(); i++){//we want it so it stays on the particular Workouts[i] with our specific returned i value from the Workout we want to access
+
+    cout << "----------" << endl;
 
     while(emptyExercises == true){//while 
         if(Workouts[i].Exercises.empty()){//if our Workout has no exercises in it, we just cout its empty and break out
@@ -558,89 +526,4 @@ void viewWorkout(vector<Workout> &Workouts){
     }
 
     cout << "----------" << endl;
-}
-
-
-
-int main(){
-
-    string menuInput;
-    bool validNumber = false;
-
-    
-    vector<Workout> Workouts;
-    //this is a vector of classes named Workouts
-
-
-
-    while (validNumber == false){
-        cout << "Welcome to Raya Fitness Tracker" << endl;
-        cout << "1. Add Workout" << endl;
-        cout << "2. Continue Existing Workout" << endl;
-        cout << "3. Remove Workout" << endl;
-        cout << "4. View Previous Workout" << endl;
-        cout << "5. Exit" << endl;
-        cout << "Please Enter Number: ";
-        cin >> menuInput;
-        cout << "----------" << endl;
-
-        if (menuInput == "1"){
-            cout << "Adding Workout" << endl;
-            //add to a vector each time, basic maybe only legs, upper, push, pull, etc
-            addWorkout(Workouts);
-            //addExercises(Workouts);
-        }
-        else if (menuInput == "2"){
-            cout << "Continuing Existing Workout" << endl;
-            
-            //allow vector to be printed out and let user see which they want to pick
-            if (Workouts.empty()){
-                cout << "Workout list is empty" << endl;
-                cout << "----------" << endl;
-            }
-            else{
-                continueWorkout(Workouts);
-            }
-        }
-        else if (menuInput == "3"){
-            cout << "Removing Workout" << endl;
-            if (Workouts.empty()){
-                cout << "Workout list is empty" << endl;
-                cout << "----------" << endl;
-                //could either do return 0, break, or change bool
-                //i think break would work best as it breaks out of current statement
-            }
-            else{
-                removeWorkout(Workouts);
-            }
-            //print vector and let user type which they want removed
-        }
-        else if (menuInput == "4"){
-            cout << "Viewing Previous Workout" << endl;
-            //same as input 2{
-
-            
-            
-            if (Workouts.empty()){
-                cout << "Workout list is empty" << endl;
-                cout << "----------" << endl;
-            }
-            else{
-                viewWorkout(Workouts);
-            }
-        }
-        else if (menuInput == "5"){
-            validNumber = true;
-        }
-        else{
-            cout << "Please Enter Again" << endl;
-        }
-    }
-
-
-
-
-
-
-    return 0;
 }
