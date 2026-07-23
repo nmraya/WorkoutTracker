@@ -43,6 +43,8 @@ void addWorkout(vector<Workout> &Workouts){//this takes in vector of Workout obj
     // Workout Workout1;   --> this is the main thing we need to figure out
     //Workout1.name = push
     bool validWorkout = false;
+    bool validWorkoutname = false;
+    
 
     //Workout1.date = monday
     //well no this shit is just temporary so literally just create it here and it can fuck off after function ends
@@ -51,14 +53,85 @@ void addWorkout(vector<Workout> &Workouts){//this takes in vector of Workout obj
 
     Workout Workout1;
 
-    cout << "Please enter workout name to add: ";
-    cin >> Workout1.name;
-    cout << "Please enter workout month to add: ";
-    cin >> Date1.month;
-    cout << "Please enter workout day to add: ";
-    cin >> Date1.day;
-    cout << "Please enter workout year to add: ";
-    cin >> Date1.year;
+    //do we check Workouts.size()? or
+    while(validWorkout == false){
+            if (Workouts.empty()){
+                cout << "Please enter workout name to add: ";
+                cin >> Workout1.name;
+                cout << "Please enter workout month to add: ";
+                cin >> Date1.month;
+                cout << "Please enter workout day to add: ";
+                cin >> Date1.day;
+                cout << "Please enter workout year to add: ";
+                cin >> Date1.year;
+                validWorkout = true;
+            }
+            else{
+                        while(validWorkoutname == false){
+                            cout << "Please enter workout name to add: ";
+                            cin >> Workout1.name;
+                            bool foundDupe = false;
+
+                            for(int i = 0; i < Workouts.size(); i++){
+                                //we need to search through ENTIRE vector to see if we get a matc
+                                //only use this shit to search, if you try to put ur logic in here it just gets confused because if u put an else after the if,
+                                //its basically telling it ok after the first element, go to else where we need to go through WHOLE thing
+                                
+                                if(Workout1.name == Workouts[i].name){
+                                    foundDupe = true;
+                                }
+                                
+                            }
+                            if(foundDupe == true){
+                                cout << "Error already used name" << endl;
+                            }
+                            if(foundDupe == false){
+                                 cout << "Please enter workout month to add: ";
+                                cin >> Date1.month;
+                                cout << "Please enter workout day to add: ";
+                                cin >> Date1.day;
+                                cout << "Please enter workout year to add: ";
+                                cin >> Date1.year;
+                                validWorkoutname = true;
+                                validWorkout = true;
+                            }
+
+
+
+                        //for however many Workout objects there are in our Workouts vector,
+
+                            
+                        /*for (int i = 0; i < Workouts.size(); i++){
+                            if(Workout1.name != Workouts[i].name){//if our user entered Workout name is not equal to any Workout name in our vector, 
+                                
+                                cout << "Index: " << i << endl;
+                                cout << "Workout name:" << Workouts[i].name << endl;
+                                
+                                cout << "Please enter workout month to add: ";
+                                cin >> Date1.month;
+                                cout << "Please enter workout day to add: ";
+                                cin >> Date1.day;
+                                cout << "Please enter workout year to add: ";
+                                cin >> Date1.year;
+                                validWorkoutname = true;
+                                validWorkout = true;
+                            }
+                            else{
+                                cout << "Please renter" << endl;
+                                break;
+                            }
+                        }*/
+
+                        
+                        
+                    }
+                
+
+            }
+        
+    }
+
+
 
 
     //Workout1.dates = Date1; cannot have this before we input data for day,month, and year or else nothing is copied into Workout1.dates
@@ -354,6 +427,8 @@ void continueWorkout(vector<Workout> &Workouts){//the parameters is what the fun
     
     cout << endl;
 
+    
+
             while (matchingWorkout == false){
                 cout << "Type workout to continue: ";
                 cin >> continuedWorkoutname;
@@ -472,6 +547,78 @@ void continueWorkout(vector<Workout> &Workouts){//the parameters is what the fun
 
 }
 
+int workoutVerification(vector<Workout> &Workouts){ // return a reference so we dont return a copy, so use Workout&
+    string removedWorkoutname;
+    string removedWorkoutmonth;
+    string removedWorkoutday;
+    string removedWorkoutyear;
+    bool matchingWorkoutname = false;
+    bool matchingWorkoutmonth = false;
+    bool matchingWorkoutday = false;
+    bool matchingWorkoutyear = false;
+    bool matchedName = false;
+
+    while(matchingWorkoutname == false){
+        cout << "Please enter workout name: ";
+        getline(cin >> ws, removedWorkoutname);
+        for (int i = 0; i < Workouts.size(); i++){
+            if (removedWorkoutname == Workouts[i].name){
+                matchedName = true;
+                while(matchingWorkoutmonth == false){
+                    cout << "Please enter workout month: ";
+                    cin >> removedWorkoutmonth;
+
+
+                        if(removedWorkoutmonth == Workouts[i].date.month){
+                            while(matchingWorkoutday == false){
+                                cout << "Please enter workout day: ";
+                                cin >> removedWorkoutday;
+                                if(removedWorkoutday == Workouts[i].date.day){
+                                    while(matchingWorkoutyear == false){
+                                        cout << "P;ease enter workout year: ";
+                                        cin >> removedWorkoutyear;
+                                        if(removedWorkoutyear == Workouts[i].date.year){
+                                            //return Workouts[i];//need to return current workout we are on aka Workouts[i],
+                                            return i;
+                                            matchingWorkoutyear = true;
+                                        }
+                                        else{
+                                            cout << "Please enter valid year" << endl;
+                                        }
+                                    }
+                                    matchingWorkoutday = true;
+                                }
+                                else{
+                                    cout << "Please enter valid day" << endl;
+                                }
+
+                            }
+                            matchingWorkoutmonth = true;
+                        }
+                        else{
+                            cout << "Please enter valid month" << endl;
+                        }
+                    
+                }
+
+
+                matchingWorkoutname = true;
+            }
+
+
+        }
+        if (matchedName == false){
+                cout << "Please enter valid name" << endl;
+                //need to put this shit out of loop or else if u put in for loop, after every iteration where user inputted name is not equal to name in vector, it will show as 
+                //please enter valid name when it should only show if it was never valid in the first place
+            }
+
+    }
+
+
+
+}
+
 void removeWorkout(vector<Workout> &Workouts){
     string removedWorkoutname;
     string removedWorkoutdate;
@@ -480,61 +627,24 @@ void removeWorkout(vector<Workout> &Workouts){
     cout << "Workouts: ";
     for (int i = 0; i < Workouts.size(); i++){
         if (i == 0){
-            cout << Workouts[i].name;//must use Workouts[i].name or .date etc, can no longer just do Workouts[i]
-            cout << Workouts[i].date.day;
+            cout << Workouts[i].name << " - " << Workouts[i].date.month << "/" << Workouts[i].date.day << "/" << Workouts[i].date.year;
         }
         else{
-            cout << ", " << Workouts[i].name;
-            cout << " " << Workouts[i].date.day;
+            cout << ", " << Workouts[i].name << " - " << Workouts[i].date.month << "/" << Workouts[i].date.day << "/" << Workouts[i].date.year;
         }
     }
     cout << endl;
     //this prints out each workout name and date at each position in our vector 
     
-    while (matchingWorkout == false){
-        cout << "Type workout to remove: ";
-        cin >> removedWorkoutname;
-        //want to make sure the workout name is valid before checking date
-        for (int i = 0; i < Workouts.size(); i++){
-            //loops through entire vector
-            if (removedWorkoutname == Workouts[i].name){
-                //this means we have fully looped through vector and found a match with our user input and workout name in our vector
+    //if(workouts)
+    //workoutVerification(Workouts); first call
+    
+    int index = workoutVerification(Workouts);//must declare index like this, how does this call workoutVerification function the second time?
+    //function must execute to produce a value, DO NOT call it twice!!!
+    //this gets the index of the specific workout we want in the Workouts vector so it gets the Workouts[i] value 
 
-                bool validDate = false;
-                //now that workout name is checked to be valid, check if date valid
-                //also add in while loop later to keep checking if you dont want return to top
-                while(validDate == false){
-                    cout << "Type workout date to remove: ";
-                    cin >> removedWorkoutdate;
-                    if(removedWorkoutdate == Workouts[i].date.day){
-                        Workouts.erase(Workouts.begin() + i);
-                        matchingWorkout = true;
-                        validDate = true; 
-                    } 
-                    //same thing here, we need an if statement or else it will run through and print this out even if date is fine
-                    if (validDate == false){
-                        cout << "Invalid date, please try again" << endl;
-                    }
+    Workouts.erase(Workouts.begin() + index);
 
-                }
-
-            }
-        }
-        //need an if statement because if we didnt have it, while loop still runs this after it doesnt auto pop out of while loop after we set condition = true, it finishes
-        //running everything inside first then pops out 
-        if (matchingWorkout == false){
-            cout << "Invalid workout name, please retry " << endl;
-        }
- 
-
-    }
-
-
-    if (matchingWorkout == false){
-            cout << "Please enter valid workout" << endl;
-            //if no match was found, matchingWorkout stays = false and then we go
-            //to top of while loop again and repeat until we find a match
-    }
 
 
     cout << "----------" << endl;
@@ -542,15 +652,8 @@ void removeWorkout(vector<Workout> &Workouts){
 }
 
 void viewWorkout(vector<Workout> &Workouts){
-    bool emptyExercises = false;
-    bool validWorkout = false;
-    bool validDate = false;
-    bool validDatemonth = false;
-    bool validDateyear = false;
-    string workoutName;
-    string continuedWorkoutdate;
-    string continuedWorkoutdatemonth;
-    string continuedWorkoutdateyear;
+    bool emptyExercises = true;
+
     cout << "Workouts: ";
     for (int i = 0; i < Workouts.size(); i++){
         if (i == 0){
@@ -576,75 +679,28 @@ void viewWorkout(vector<Workout> &Workouts){
     cout << "----------" << endl;
     //we need to check to see if user entered workoutname is valid
 
-    for (int i = 0; i < Workouts.size(); i++){//goes through entire workouts vector 
-        while(emptyExercises == false){
-            
-            if(Workouts[i].Exercises.empty()){
-                cout << "Exercises list empty" << endl;
-                break;
-            }
-            
-            while(validWorkout == false){
-            cout << "Enter workout name to view: ";
-            cin >> workoutName;
 
-            if(workoutName == Workouts[i].name){//if our workout name matches a workout from our workouts vector, continue
-                //now we know the name of the workout 
 
-                    while(validDatemonth == false){
-                        cout << "Type workout date month to continue: ";
-                        cin >> continuedWorkoutdatemonth;
-                        if(continuedWorkoutdatemonth == Workouts[i].date.month){
-                            while(validDate == false){
-                                cout << "Type workout date day to continue: ";
-                                cin >> continuedWorkoutdate;
-                                if(continuedWorkoutdate == Workouts[i].date.day){
-                                    while(validDateyear == false){
-                                        cout << "Type workout date year to continue: ";
-                                        cin >> continuedWorkoutdateyear;
-                                        cout << "----------" << endl;
-                                        if (continuedWorkoutdateyear == Workouts[i].date.year){
-                                            for (int j = 0; j < Workouts[i].Exercises.size(); j++){//now from that specific workout we matched with go through its exercises and print each data piece out
-                                                //at first you had it like 
-                                                //cout << Workouts[i].name; etc
-                                                cout << "Exercise: " << Workouts[i].Exercises[j].name << endl;
-                                                cout << "Weight: " << Workouts[i].Exercises[j].weight << endl;
-                                                cout << "Reps: " << Workouts[i].Exercises[j].reps << endl;
-                                                cout << "Sets: " << Workouts[i].Exercises[j].sets << endl;
-                                                validWorkout = true;
-                                                validDate = true;
-                                                validDatemonth = true;
-                                                validDateyear = true;
-                                                emptyExercises = true; 
-                                            }
+    int i = workoutVerification(Workouts);
+    //for(int i = index; i < Workouts.size(); i++){//we want it so it stays on the particular Workouts[i] with our specific returned i value from the Workout we want to access
 
-                                        }
-                                        else{
-                                            cout << "Please enter valid year" << endl;
-                                        }
-                                    }
-
-                                }
-                                else{
-                                    cout << "Please enter valid month" << endl;
-                                }
-                            }
-                        }
-                        else{
-                            cout << "Please enter valid day" << endl;
-                        }
-                    }
-            }
-
-            else{
-                cout << "Please enter valid workout name" << endl;
+    while(emptyExercises == true){//while 
+        if(Workouts[i].Exercises.empty()){//if our Workout has no exercises in it, we just cout its empty and break out
+            cout << "Exercise list is empty" << endl;
+            break;
+        }
+        else{
+            for (int j = 0; j < Workouts[i].Exercises.size(); j++){
+                cout << "Exercise: " << Workouts[i].Exercises[j].name << endl;
+                cout << "Weight: " << Workouts[i].Exercises[j].weight << endl;
+                cout << "Reps: " << Workouts[i].Exercises[j].reps << endl;
+                cout << "Sets: " << Workouts[i].Exercises[j].sets << endl;
+                emptyExercises = false;
             }
         }
-            
-        }
-
-
     }
+
+
 
     
     cout << "----------" << endl;
@@ -656,6 +712,7 @@ int main(){
 
     string menuInput;
     bool validNumber = false;
+
     
     vector<Workout> Workouts;
     //this is a vector of classes named Workouts
@@ -681,9 +738,11 @@ int main(){
         }
         else if (menuInput == "2"){
             cout << "Continuing Existing Workout" << endl;
+            
             //allow vector to be printed out and let user see which they want to pick
             if (Workouts.empty()){
                 cout << "Workout list is empty" << endl;
+                cout << "----------" << endl;
             }
             else{
                 continueWorkout(Workouts);
@@ -693,6 +752,7 @@ int main(){
             cout << "Removing Workout" << endl;
             if (Workouts.empty()){
                 cout << "Workout list is empty" << endl;
+                cout << "----------" << endl;
                 //could either do return 0, break, or change bool
                 //i think break would work best as it breaks out of current statement
             }
@@ -704,9 +764,12 @@ int main(){
         else if (menuInput == "4"){
             cout << "Viewing Previous Workout" << endl;
             //same as input 2{
+
+            
             
             if (Workouts.empty()){
                 cout << "Workout list is empty" << endl;
+                cout << "----------" << endl;
             }
             else{
                 viewWorkout(Workouts);
