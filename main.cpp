@@ -2,9 +2,11 @@
 #include <vector>
 #include "Workout.h"//need file that has Workout class
 #include "WorkoutFunctions.h"//need the file to call these functions
+#include "FileIO.h"
 using namespace std;
 
 int main(){
+    
     //need Workout.h as we use Workout class here in main, we do not use Exercise or Date class here though so we do not include those
 
     string menuInput;
@@ -12,6 +14,8 @@ int main(){
     
     vector<Workout> Workouts;
     //this is a vector of classes named Workouts
+
+        loadWorkouts(Workouts);
 
     while (validNumber == false){
         cout << "Welcome to Raya Fitness Tracker" << endl;
@@ -79,7 +83,7 @@ int main(){
 
 
 
-
+    saveWorkouts(Workouts);
 
 
     return 0;
