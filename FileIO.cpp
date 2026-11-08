@@ -41,59 +41,34 @@ void saveWorkouts(vector<Workout>& Workouts){
 }
 
 void loadWorkouts(vector<Workout>& Workouts){
-    //does file -> objects 
-
-    ifstream infile("workouts.txt");//opens workouts.txt to read from it 
-    //ifstream means input file while ofstream means output file 
-
-    if (!infile.is_open()){//did the file actually open? if not return bc theres nothing to load
+    ifstream infile("workouts.txt");
+    if (!infile.is_open()){
         return;
     }
-    Workout Workout1;//creates one temporary Workout object 
 
-    while(infile >> Workout1.name){// read next workout name, did it work? if yes keep going, if no stop
-        //suppose first thing in file is Chest
-        //Workout1.name = "Chest"
-        
+    string line;
+    while (getline(infile, line)){      // workout name (whole line)
+        if (line.empty()) continue;     // skip stray blank lines
 
-        // load workout information
+        Workout Workout1;               // fresh workout every time (fixes bug 2)
+        Workout1.name = line;
 
-        infile >> Workout1.date.month;
-        infile >> Workout1.date.day;
-        infile >> Workout1.date.year;
+        getline(infile, Workout1.date.month);
+        getline(infile, Workout1.date.day);
+        getline(infile, Workout1.date.year);
 
-
-        string check;//used to see what comes next 
-
-        // load exercises until END
-        while(infile >> check && check != "END"){//infile >> check -> reads the next word, suppose the file says Bench, check = "Bench"
-            //then for check != "END" -> is this word END? -> if not keep loading exercises till we reach END
-
-            Exercise Exercise1;//create an exercise, looks like 
-            //name = ""
-            //weight = ""
-            //reps = ""
-            //sets = ""
-
-            
-            Exercise1.name = check;//remember check already was the name of the exercise so just set it to this 
-
-            infile >> Exercise1.weight; //weight = 135
-            infile >> Exercise1.reps; //reps = 8
-            infile >> Exercise1.sets; //sets = 3
-
-
-            Workout1.Exercises.push_back(Exercise1);//add exercise to workout
+        string check;
+        while (getline(infile, check) && check != "END"){
+            Exercise Exercise1;
+            Exercise1.name = check;     // whole line, so "Bench Press" works
+            getline(infile, Exercise1.weight);
+            getline(infile, Exercise1.reps);
+            getline(infile, Exercise1.sets);
+            Workout1.Exercises.push_back(Exercise1);
         }
 
-
-        // after workout is fully built, add it to vector
         Workouts.push_back(Workout1);
-
     }
-    //then go to next workout 
-
 
     infile.close();
-
 }

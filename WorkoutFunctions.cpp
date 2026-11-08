@@ -332,7 +332,7 @@ int workoutVerification(vector<Workout> &Workouts){ // return a reference so we 
                                 cin >> removedWorkoutday;
                                 if(removedWorkoutday == Workouts[i].date.day){
                                     while(matchingWorkoutyear == false){
-                                        cout << "P;ease enter workout year: ";
+                                        cout << "Please enter workout year: ";
                                         cin >> removedWorkoutyear;
                                         if(removedWorkoutyear == Workouts[i].date.year){
                                             //return Workouts[i];//need to return current workout we are on aka Workouts[i],
