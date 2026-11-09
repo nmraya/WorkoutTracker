@@ -15,10 +15,6 @@ void addWorkout(vector<Workout> &Workouts){//this takes in vector of Workout obj
     bool validWorkout = false;
     bool validWorkoutname = false;
     
-
-    //Workout1.date = monday
-    //well no this shit is just temporary so literally just create it here and it can fuck off after function ends
-
     Date Date1;
 
     Workout Workout1;
@@ -26,7 +22,7 @@ void addWorkout(vector<Workout> &Workouts){//this takes in vector of Workout obj
     while(validWorkout == false){
             if (Workouts.empty()){
                 cout << "Please enter workout name to add: ";
-                cin >> Workout1.name;
+                getline(cin >> ws, Workout1.name);
                 cout << "Please enter workout month to add: ";
                 cin >> Date1.month;
                 cout << "Please enter workout day to add: ";
@@ -38,13 +34,10 @@ void addWorkout(vector<Workout> &Workouts){//this takes in vector of Workout obj
             else{
                         while(validWorkoutname == false){
                             cout << "Please enter workout name to add: ";
-                            cin >> Workout1.name;
+                            getline(cin >> ws, Workout1.name);
                             bool foundDupe = false;
 
                             for(int i = 0; i < Workouts.size(); i++){
-                                //we need to search through ENTIRE vector to see if we get a match
-                                //only use this shit to search, if you try to put ur logic in here it just gets confused because if u put an else after the if,
-                                //its basically telling it ok after the first element, go to else where we need to go through WHOLE thing
                                 
                                 if(Workout1.name == Workouts[i].name){
                                     foundDupe = true;
@@ -128,11 +121,11 @@ void addExercises(Workout &currentWorkout){ //this is expecting to receive the c
         getline(cin >> ws, Exercise1.name);
 
         cout << "Please enter weight: ";
-        cin >> Exercise1.weight;
+        getline(cin >> ws, Exercise1.weight);
         cout << "Please enter reps: ";
-        cin >> Exercise1.reps;
+        getline(cin >> ws, Exercise1.reps);
         cout << "Please enter sets: ";
-        cin >> Exercise1.sets;
+        getline(cin >> ws, Exercise1.sets);
 
 
 
@@ -148,8 +141,6 @@ void addExercises(Workout &currentWorkout){ //this is expecting to receive the c
         //copies the entire Exercise1 object into that vector
         //and then Exercise1 is just essentially 1 exercise that is getting copied 
 
-        //so theres a bug whenever i type a space it fucks up the program
-
         cout << "Add another exercise? (y/n): ";
         cin >> userOption;
         if(userOption == "y"){
@@ -163,36 +154,25 @@ void addExercises(Workout &currentWorkout){ //this is expecting to receive the c
 }
 
 void removeExercises(Workout &currentWorkout){
+    cout << "Exercises: ";
+    for (int j = 0; j < currentWorkout.Exercises.size(); j++){
+        if (j > 0) cout << ", ";
+        cout << currentWorkout.Exercises[j].name;
+    }
+    cout << endl;
+
     string removedExercise;
-    cout << "Please select exercise to remove" << endl;
+    cout << "Please select exercise to remove: ";
+    getline(cin >> ws, removedExercise);
 
-    
-                for (int j = 0; j < currentWorkout.Exercises.size(); j++){
-
-                    cout << "Exercise: " << currentWorkout.Exercises[j].name << endl;
-
-                    getline(cin >> ws, removedExercise);
-
-                    if(removedExercise == currentWorkout.Exercises[j].name){//
-                        cout << "matched" << endl;
-
-                        //Workouts[i].Exercises[j].name.erase();
-                        //Workouts[i].Exercises[j].weight.erase(); cannot .erase or .clear a double, must set = 0 ;
-                        //Workouts[i].Exercises[j].reps.clear();
-                        //Workouts[i].Exercises[j].sets.clear();
-
-                        currentWorkout.Exercises.erase(currentWorkout.Exercises.begin() + j);
-                        //inside currentWorkout, inside Exercises, erase exercise at position j
-
-                    }
-
-
-                }
-    
-
-
-
-
+    for (int j = 0; j < currentWorkout.Exercises.size(); j++){
+        if (removedExercise == currentWorkout.Exercises[j].name){
+            currentWorkout.Exercises.erase(currentWorkout.Exercises.begin() + j);
+            cout << "Removed" << endl;
+            return;
+        }
+    }
+    cout << "Exercise not found" << endl;
 }
 
 void adjustExercises(Workout &currentWorkout){
@@ -218,7 +198,7 @@ void adjustExercises(Workout &currentWorkout){
     cout << endl;
 
     while(validWorkout == false){
-        cout << "Please enter workout to adjust: ";
+        cout << "Please enter exercise to adjust: ";
         //cin >> userOptionname
         getline(cin >> ws, userOptionname);//must use getline cin or else if you tried one above, it wouldnt work bc of space in bench press if space was there for ex
         //bc for Exercise.name, getline is used not cin
@@ -366,8 +346,7 @@ int workoutVerification(vector<Workout> &Workouts){ // return a reference so we 
         }
         if (matchedName == false){
                 cout << "Please enter valid name" << endl;
-                //need to put this shit out of loop or else if u put in for loop, after every iteration where user inputted name is not equal to name in vector, it will show as 
-                //please enter valid name when it should only show if it was never valid in the first place
+
             }
         
     }
@@ -453,9 +432,6 @@ void continueWorkout(vector<Workout> &Workouts){//the parameters is what the fun
 }
 
 void removeWorkout(vector<Workout> &Workouts){
-    string removedWorkoutname;
-    string removedWorkoutdate;
-    bool matchingWorkout = false;
     //NOT bool matchingWorkout false; must set = false
     cout << "Workouts: ";
     for (int i = 0; i < Workouts.size(); i++){
